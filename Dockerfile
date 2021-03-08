@@ -30,9 +30,13 @@ COPY background_downloader.bash .
 
 RUN python background_downloader.py
 
+RUN ["mkdir", "static"]
+RUN ["mkdir", "templates"]
+
+COPY favicon.ico static/favicon.ico
+COPY index.html templates/index.html
+
 COPY main.py .
-COPY favicon.ico /.
-COPY index.html /.
 
 #CMD [ "bokeh", "serve", "." ]
 
