@@ -82,6 +82,7 @@ corr.add_tools(HoverTool(
 ))
 
 corr.toolbar.active_drag = None
+corr.toolbar.logo = None
 
 #corr.sizing_mode = 'scale_both'
 
@@ -137,6 +138,7 @@ temp_plot.legend.click_policy="hide"
 temp_plot.title.text = "Temperature and humidity data"
 
 temp_plot.toolbar.active_drag = None
+temp_plot.toolbar.logo = None
 
 #temp_plot.sizing_mode = 'scale_both'
 
@@ -198,6 +200,7 @@ battery_plot.legend.click_policy="hide"
 battery_plot.title.text = "Battery"
 
 battery_plot.toolbar.active_drag = None
+battery_plot.toolbar.logo = None
 
 #battery_plot.sizing_mode = 'scale_both'
 
