@@ -37,3 +37,6 @@ docker run --name sensors -d -p 8123:8123 -p 8124:8124 ddudas/sensor-dashboard:l
 docker logs sensors --follow
 docker kill sensors
 docker container prune
+
+Note: favicon.ico template:
+https://stackoverflow.com/questions/47586873/where-should-i-put-favicon-ico-so-bokeh-serve-can-find-and-render-it
