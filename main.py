@@ -50,9 +50,9 @@ def load_initial_data():
 
 # set up widgets
 
-stats = PreText(text='', width=350, sizing_mode='fixed', width_policy="fixed", min_width=350)
-ticker1 = Select(value='Outside temperature', options=nix('Outside humidity', DATA_SOURCES), sizing_mode='fixed', width_policy="fixed", width=350)
-ticker2 = Select(value='Outside humidity', options=nix('Outside temperature', DATA_SOURCES), sizing_mode='fixed', width_policy="fixed", width=350)
+stats = PreText(text='', width=300, height=400, sizing_mode='fixed', width_policy="fixed", min_width=300)
+ticker1 = Select(value='Outside temperature', options=nix('Outside humidity', DATA_SOURCES), sizing_mode='fixed', width=300, height=25)
+ticker2 = Select(value='Outside humidity', options=nix('Outside temperature', DATA_SOURCES), sizing_mode='fixed', width=300, height=25)
 
 # set up plots
 
@@ -62,7 +62,7 @@ source_static = ColumnDataSource(data=dict(date=[], kitchen_temp=[], kitchen_hum
 load_initial_data()
 
 
-corr = figure(tools='pan,wheel_zoom,box_select,reset', sizing_mode='stretch_width', height=400, width=200)
+corr = figure(tools='pan,wheel_zoom,box_select,reset', sizing_mode='stretch_width', width_policy="min", height=400, width=400)#, max_width=500)
 corr.circle('x_data', 'y_data', size=2, source=source,
             selection_color="orange", alpha=0.6, nonselection_alpha=0.1, selection_alpha=0.4)
 
@@ -166,7 +166,7 @@ select.sizing_mode = 'stretch_width'
 
 ####################################################################################################
 
-battery_plot = figure(plot_width=200, plot_height=400, tools=tools, x_axis_type='datetime', active_drag="xbox_select", sizing_mode='stretch_both', height_policy="max", width_policy="min", max_height=400, min_height=200, min_width=100)
+battery_plot = figure(plot_width=200, plot_height=400, tools=tools, x_axis_type='datetime', active_drag="xbox_select", sizing_mode='stretch_width', height_policy="max", width_policy="max", max_height=400, min_height=200, min_width=100, max_width=3000)
 battery_plot.x_range = temp_plot.x_range
 battery_plot_plot1a = battery_plot.line('date', 'kitchen_bat', source=source_static, name="Kitchen battery", legend_label="Kitchen battery")
 battery_plot_plot2a = battery_plot.line('date', 'outside_bat', source=source_static, line_color="tomato", name="Outside battery", legend_label="Outside battery")
@@ -249,21 +249,21 @@ def update(selected=None):
 
 def update_stats(data):
     #print(data['kitchen_temp'].mean(), data['kitchen_temp'].min())
-    d = {'Average': [data['kitchen_temp'].mean(), data['outside_temp'].mean(), data['bathroom_temp'].mean(), data['filament_temp'].mean(),
-                     data['kitchen_hum'].mean(), data['outside_hum'].mean(), data['bathroom_hum'].mean(), data['filament_hum'].mean(),
-                     data['kitchen_bat'].mean(), data['outside_bat'].mean(), data['bathroom_bat'].mean(), data['filament_bat'].mean()
-                    ],
-         'Min':     [data['kitchen_temp'].min(), data['outside_temp'].min(), data['bathroom_temp'].min(), data['filament_temp'].min(),
-                     data['kitchen_hum'].min(), data['outside_hum'].min(), data['bathroom_hum'].min(), data['filament_hum'].min(),
-                     data['kitchen_bat'].min(), data['outside_bat'].min(), data['bathroom_bat'].min(), data['filament_bat'].min()
-                    ],
-         'Max':     [data['kitchen_temp'].max(), data['outside_temp'].max(), data['bathroom_temp'].max(), data['filament_temp'].max(),
-                     data['kitchen_hum'].max(), data['outside_hum'].max(), data['bathroom_hum'].max(), data['filament_hum'].max(),
-                     data['kitchen_bat'].max(), data['outside_bat'].max(), data['bathroom_bat'].max(), data['filament_bat'].max()
-                    ]
+    d = {'Avg': [data['kitchen_temp'].mean(), data['outside_temp'].mean(), data['bathroom_temp'].mean(), data['filament_temp'].mean(),
+                 data['kitchen_hum'].mean(), data['outside_hum'].mean(), data['bathroom_hum'].mean(), data['filament_hum'].mean(),
+                 data['kitchen_bat'].mean(), data['outside_bat'].mean(), data['bathroom_bat'].mean(), data['filament_bat'].mean()
+                ],
+         'Min': [data['kitchen_temp'].min(), data['outside_temp'].min(), data['bathroom_temp'].min(), data['filament_temp'].min(),
+                 data['kitchen_hum'].min(), data['outside_hum'].min(), data['bathroom_hum'].min(), data['filament_hum'].min(),
+                 data['kitchen_bat'].min(), data['outside_bat'].min(), data['bathroom_bat'].min(), data['filament_bat'].min()
+                ],
+         'Max': [data['kitchen_temp'].max(), data['outside_temp'].max(), data['bathroom_temp'].max(), data['filament_temp'].max(),
+                 data['kitchen_hum'].max(), data['outside_hum'].max(), data['bathroom_hum'].max(), data['filament_hum'].max(),
+                 data['kitchen_bat'].max(), data['outside_bat'].max(), data['bathroom_bat'].max(), data['filament_bat'].max()
+                ]
          }
     df = pd.DataFrame(data=d, index=['Kitchen temp.','Outside temp.','Bathroom temp.','Filament temp.','Kitchen hum.','Outside hum.','Bathroom hum.','Filament hum.', 'Kitchen bat.', 'Outside bat.', 'Bathroom bat.', 'Filament bat.'])
-    stats.text = str(df)
+    stats.text = str(df.round(2))
 
 ticker1.on_change('value', ticker1_change)
 ticker2.on_change('value', ticker2_change)
@@ -320,7 +320,7 @@ source.selected.on_change('indices', selection_change)
 
 # set up layout
 main_row = column(temp_plot, select, sizing_mode='stretch_both', width_policy="max", min_width=920)
-widgets = column(ticker1, ticker2, stats, sizing_mode='fixed', width=350)
+widgets = column(ticker1, ticker2, stats, sizing_mode='fixed', width=300, height=400)
 second_row = row(battery_plot, corr, widgets, sizing_mode='scale_width', height_policy="max", width_policy="min", max_height=400, min_width=920)
 #second_row = row(battery_plot, statistics, sizing_mode='scale_width', height_policy="max", max_height=400, width_policy="min", min_width=200)
 #widgets = column(ticker1, ticker2, stats)
