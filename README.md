@@ -40,3 +40,20 @@ docker container prune
 
 Note: favicon.ico template:
 https://stackoverflow.com/questions/47586873/where-should-i-put-favicon-ico-so-bokeh-serve-can-find-and-render-it
+
+Create SSL cert:
+https://hometechhacker.com/letsencrypt-certificate-dns-verification-noip/
+sudo apt install certbot
+sudo certbot certonly --manual --preferred-challenges dns -d home-sensors.ddns.net
+ls /etc/letsencrypt/live/home-sensors.ddns.net/
+    cert.pem  chain.pem  fullchain.pem  privkey.pem  README
+
+In Oracle cloud load balancer:
+Upload fullchain.pem as SSL Certificate File
+And privkey.pem as Private Key File
+
+https redirect:
+https://blogs.oracle.com/cloud-infrastructure/http-url-redirect-on-oracle-cloud-infrastructure
+
+Automate certificate renewal:
+https://blog.cajo.info/2020/05/using-lets-encrypt-certificates-with.html#Step2
