@@ -158,6 +158,7 @@ range_tool.overlay.fill_alpha = 0.2
 
 select.line('date', 'kitchen_temp', source=source_static)
 select.line('date', 'outside_temp', source=source_static, line_color="tomato")
+select.line('date', 'bathroom_temp', source=source_static, line_color="green")
 select.ygrid.grid_line_color = None
 select.add_tools(range_tool)
 select.toolbar.active_multi = range_tool
