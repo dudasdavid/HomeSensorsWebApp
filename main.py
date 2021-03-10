@@ -93,7 +93,7 @@ corr.toolbar.logo = None
 ### Main temperature and humidity plot ###
 ##########################################
 tools = 'pan,wheel_zoom,xbox_select,reset'
-temp_plot = figure(plot_width=920, plot_height=500, tools=tools, x_axis_type='datetime', active_drag="xbox_select", y_range=(-5, 35), x_range=(datetime.now() - timedelta(days=7), datetime.now()), sizing_mode='stretch_both', width_policy='min', min_width=920)
+temp_plot = figure(plot_width=920, plot_height=500, tools=tools, x_axis_type='datetime', active_drag="xbox_select", y_range=(-5, 35), x_range=(datetime.now() - timedelta(days=7), datetime.now() + timedelta(hours=1.5)), sizing_mode='stretch_both', width_policy='min', min_width=920)
 temp_plot_plot1a = temp_plot.line('date', 'kitchen_temp', source=source_static, legend_label="Kitchen temperature", name="Kitchen temperature")
 temp_plot_plot2a = temp_plot.line('date', 'outside_temp', source=source_static, legend_label="Outside temperature", name="Outside temperature", line_color="tomato")
 temp_plot_plot3a = temp_plot.line('date', 'bathroom_temp', source=source_static, legend_label="Bathroom temperature", name="Bathroom temperature", line_color="green")
