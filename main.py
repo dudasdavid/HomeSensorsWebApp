@@ -36,6 +36,7 @@ def load_data():
     data = pd.read_csv(fname, header=None, parse_dates=['date'],
                        names=['date', 'kitchen_temp', 'kitchen_hum', 'kitchen_bat', 'outside_temp', 'outside_hum', 'outside_bat', 'filament_temp', 'filament_hum', 'filament_bat', 'bathroom_temp', 'bathroom_hum', 'bathroom_bat'])
     data = data.set_index('date')
+    data.index = data.index + pd.DateOffset(hours=1)
     return data#pd.DataFrame({ticker: data.c, ticker+'_returns': data.c.diff()})
 
 @lru_cache()
