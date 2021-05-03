@@ -115,7 +115,7 @@ else:
     querySize = 100
     logger.log(f"{oldQuerySize} samples were not enough, trying with {querySize}!", messageType = "WARN")
 
-    # Try querying 20 samples
+    # Try querying 100 samples
     logger.log(f"Querying {querySize} items from Firestore.")
     results = collection.order_by('date',direction='DESCENDING').limit(querySize).get()
     results.reverse()
@@ -141,7 +141,33 @@ else:
     querySize = 1000
     logger.log(f"{oldQuerySize} samples were not enough, trying with {querySize}!", messageType = "WARN")
 
-    # Try querying 20 samples
+    # Try querying 1000 samples
+    logger.log(f"Querying {querySize} items from Firestore.")
+    results = collection.order_by('date',direction='DESCENDING').limit(querySize).get()
+    results.reverse()
+    startFlag = False
+    for i, item in enumerate(results):
+        #print(i, item.to_dict()['timestamp'], startFlag)
+        if startFlag:
+            fh.write(f"{item.to_dict()['timestamp']},{item.to_dict()['kitchen_temp']},{item.to_dict()['kitchen_hum']},{item.to_dict()['kitchen_bat']}," \
+                    f"{item.to_dict()['outside_temp']},{item.to_dict()['outside_hum']},{item.to_dict()['outside_bat']}," \
+                    f"{item.to_dict()['filament_temp']},{item.to_dict()['filament_hum']},{item.to_dict()['filament_bat']}," \
+                    f"{item.to_dict()['bathroom_temp']},{item.to_dict()['bathroom_hum']},{item.to_dict()['bathroom_bat']}\n")
+        
+        if local_latest == item.to_dict()['timestamp']:
+            startFlag = True
+
+    if startFlag:
+        logger.log(f"Local database was successfully updated from the last {querySize} samples.", messageType = "OK")
+        fh.close()
+        exit()
+
+    # Only go through at this point if update was unsuccesful.
+    oldQuerySize = querySize
+    querySize = 10000
+    logger.log(f"{oldQuerySize} samples were not enough, trying with {querySize}!", messageType = "WARN")
+
+    # Try querying 10000 samples
     logger.log(f"Querying {querySize} items from Firestore.")
     results = collection.order_by('date',direction='DESCENDING').limit(querySize).get()
     results.reverse()
