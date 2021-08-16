@@ -7,10 +7,11 @@ https://medium.com/faun/getting-started-with-firebase-cloud-firestore-using-pyth
 You will need a home-sensors-credentials.json file from Firstore to authenticate into Firestore.
 
 ## Setup steps:
-1) Run backround_downloader.py locally to have an up-to-date database
+1) Run background_downloader.py locally to have an up-to-date database
 
 2) Build Docker image:
 docker build -t ddudas/sensor-dashboard:latest --build-arg H_PORT=8124 --build-arg S_PORT=8123 .
+docker build -t ddudas/sensor-dashboard:arm --platform linux/arm64 --build-arg H_PORT=8124 --build-arg S_PORT=8123 .
 
 3) Test it locally:
 docker run -p 8123:8123 -p 8124:8124 ddudas/sensor-dashboard:latest
@@ -19,6 +20,7 @@ You can open the local web app on http://localhost:8123/app
 
 4) Push Docker image to the Docker hub:
 docker push ddudas/sensor-dashboard:latest
+docker push ddudas/sensor-dashboard:arm
 
 
 
